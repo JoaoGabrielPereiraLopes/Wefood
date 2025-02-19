@@ -1,4 +1,3 @@
-
 CREATE TABLE COMIDA(
     ID INTEGER PRIMARY KEY,
     Preparo NUMERIC,
@@ -18,19 +17,30 @@ CREATE TABLE IngredienteComida (
     FOREIGN KEY (ingrediente) REFERENCES ingredientes(ID)
 );
 
-CREATE TABLE intolerancia(
+CREATE TABLE intolerancia (
     ID INTEGER PRIMARY KEY,
-    Nome Text,
-    Ingredientes INTEGER,
-    FOREIGN KEY(Ingredientes) REFERENCES ingredientes(ID)
+    Nome TEXT,
+    IngredienteID INTEGER,
+    FOREIGN KEY (IngredienteID) REFERENCES ingredientes(ID)
 );
+
 CREATE TABLE Usuario(
     ID INTEGER PRIMARY KEY,
     nome text
 );
+
 CREATE TABLE intoleranciaUsuario(
-    Usuario integer,
-    Intolerancia INTEGER,
-    FOREIGN KEY(Usuario) REFERENCES Usuario(ID),
-    FOREIGN KEY(Intolerancia) REFERENCES intolerancia(ID)
+    UsuarioID  integer,
+    IntoleranciaID  INTEGER,
+    FOREIGN KEY(UsuarioID) REFERENCES Usuario(ID),
+    FOREIGN KEY(IntoleranciaID) REFERENCES intolerancia(ID)
+);
+
+CREATE TABLE pedido(
+    ID INTEGER PRIMARY KEY,
+    Comida INTEGER,
+    Usuario INTEGER,
+    Pronto BOOLEAN,
+    FOREIGN KEY(Comida) REFERENCES Usuario(ID),
+    FOREIGN KEY(Usuario) REFERENCES Comida(ID)
 );
