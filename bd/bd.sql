@@ -26,7 +26,9 @@ CREATE TABLE intolerancia (
 
 CREATE TABLE Usuario(
     ID INTEGER PRIMARY KEY,
-    nome text
+    nome text,
+    email text,
+    senha text
 );
 
 CREATE TABLE intoleranciaUsuario(

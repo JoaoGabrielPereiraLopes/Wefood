@@ -248,7 +248,7 @@ app.post('/insert_intolerancia',(req,res)=>{
                     console.error(`A query gerou o erro: ${error.message}`);
                     return res.status(200).json({
                         status: 'fail',
-                        message: 'Register failed',
+                        message: 'Register failed'
                     });
                 } else {
                     return res.status(200).json({
@@ -260,3 +260,224 @@ app.post('/insert_intolerancia',(req,res)=>{
         }
     })
 })
+
+app.post('/delete_comida',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`DELETE FROM COMIDA WHERE ID= ${ID}`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Delete failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Delete successfully'
+            });
+        }
+    })
+})
+
+app.post('/delete_ingredientes',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`DELETE FROM ingredientes WHERE ID= ${ID}`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Delete failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Delete successfully'
+            });
+        }
+    })
+})
+
+app.post('/delete_intolerancia',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`DELETE FROM intolerancia WHERE ID= ${ID}`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Delete failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Delete successfully'
+            });
+        }
+    })
+})
+
+app.post('/post_USER',(req,res)=>{
+    const {Nome} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`INSERT INTO Usuario(nome) Values(${Nome})`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Insert failed',
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Insert successfully'
+            });
+        }
+    })
+})
+
+app.get('/get_USER',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.get(`SELECT * FROM User WHERE ID = ${ID}'`,(error,result)=>{
+
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Search failed',
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Search successfully',
+                query: result
+            });
+        }
+    })
+})
+
+app.post('/post_pedido',(req,res)=>{
+    const {User,Comida} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`INSERT INTO Pedidos(comida,Usuario,pronto) Values(${User},${Comida},FALSE)`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'pedido failed',
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'pedido successfully'
+            });
+        }
+    })
+})
+
+app.get('/Get_pedido',(req,res)=>{
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.get(`SELECT * FROM Pedidos`,(error,result)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Search failed',
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Search successfully',
+                query: result
+            });
+        }
+    })
+})
+
+app.post('/update_pedido',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`UPDATE Pedidos pronto=TRUE WHERE ID=${ID}`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'UPDATE failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'UPDATE successfully'
+            });
+        }
+    })
+})
+
+app.post('/delete_Pedido',(req,res)=>{
+    const {ID} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`DELETE FROM Pedidos WHERE ID= ${ID}`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'Delete failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'Delete successfully'
+            });
+        }
+    })
+})
+app.listen(8080, () => {
+    console.log('Server started in the localhost 8080');
+});
