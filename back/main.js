@@ -17,6 +17,10 @@ app.get('/user', (req,res)=>{
     res.sendFile(path.join(__dirname, path.join('./public/html', 'user.html')));
 })
 
+app.get('/loja', (req,res)=>{
+    res.sendFile(path.join(__dirname, path.join('./public/html', 'foodshop.html')));
+})
+
 app.get('/comida',(req,res)=>{
     res.sendFile(path.join(__dirname, path.join('./public/html', 'comida.html')));
 })

@@ -10,12 +10,31 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./script/foodlogica.js">
 </head>
-<body>
+<body class="bg-dark" onload="create_foods()">
     <ul class="nav container-fluid bg-danger fs-1 justify-content-evenly col-sm-12">
         <li class="nav-item "><i class="fa-solid fa-utensils fs-1"></i></li>
         <li class="nav-item"><i class="fa-solid fa-house"></i></li>
         <li class="nav-item"><i class="fa-solid fa-glass-water"></i></li>
         <li class="nav-item"><i class="fa-solid fa-circle-user"></i></li>
     </ul>
+    <main class="container mt-4">
+        <h2 class="col-sm-12 text-center fs-1 text-white">
+            Cardapio
+        </h2>
+        <div class="row">
+            <div class="card col-sm-3  bg-dark text-white border-white" style="border-radius: 5%;">
+                <img src="../imagens/dish.png" alt="" class="col-sm-12">
+                <div class="card-body">
+                  <h2 class="card-title fs-4 text-uppercase text-center">hamburguer</h2>
+                  <p class="card-text">Um hamburguer</p>
+                  <div class="col-sm-12 text-center">
+                    <a href="#" class="btn btn-danger position col-sm-10">Saiba mais</a>
+                  </div>
+                </div>
+                
+            </div> 
+        </div>
+                 
+    </main>
 </body>
 </html>
