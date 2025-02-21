@@ -1,20 +1,23 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const formRouter = require('./form_send');
 const bodyParser = require('body-parser');
 const sql = require('sqlite3').verbose();
 const url = require('url');
+const jwt = require("jsonwebtoken");
 app.use(express.static(path.join(__dirname, '../public'), { extensions: ['html', 'css', 'js', 'ttf', 'jpeg', 'svg'] }));
 app.use(express.json());
 app.use(bodyParser.json({ limit: '512mb' }));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, path.join('./public/html', 'wefood.html')));
+    res.sendFile(path.join(__dirname, path.join('../public/html', 'wefood.html')));
 });
 
 app.get('/user', (req,res)=>{
-    res.sendFile(path.join(__dirname, path.join('./public/html', 'user.html')));
+    res.sendFile(path.join(__dirname, path.join('../public/html', 'pratos.html')));
+})
+app.get('/cssgeral.css', (req,res)=>{
+    res.sendFile(path.join(__dirname, path.join('../public/html', 'cssgeral.css')));
 })
 
 app.get('/loja', (req,res)=>{
@@ -22,7 +25,7 @@ app.get('/loja', (req,res)=>{
 })
 
 app.get('/comida',(req,res)=>{
-    res.sendFile(path.join(__dirname, path.join('./public/html', 'comida.html')));
+    res.sendFile(path.join(__dirname, path.join('./public/html', '')));
 })
 
 app.get('/get_comidas',(req,res)=>{
@@ -32,17 +35,19 @@ app.get('/get_comidas',(req,res)=>{
         }
         console.log('conexão bem sucedida')
     })
-    banco.get('SELECT * FROM COMIDA', (error) => {
+    banco.get('SELECT * FROM COMIDA;', (error,result) => {
         if (error) {
             console.error(`A query gerou o erro: ${error.message}`);
             return res.status(200).json({
                 status: 'fail',
-                message: 'Register failed'
+                message: 'Register failed',
+                resultado: result
             });
         } else {
             return res.status(200).json({
                 status: 'success',
-                message: 'Register successfully'
+                message: 'Register successfully',
+                result:result
             });
         }
     })
@@ -482,6 +487,21 @@ app.post('/delete_Pedido',(req,res)=>{
         }
     })
 })
+// Test do Oauth
+
+app.post("/login", (req, res) => {
+    const { username, password } = req.body;
+  
+    
+    if (username === "usuario" && password === "senha") {
+      const user = { id: 1, name: "Usuário" };
+      
+      
+      const token = jwt.sign(user, "chave_secreta", { expiresIn: "2h" });
+  
+      return res.json({ token });
+    }
+});
 app.listen(8080, () => {
     console.log('Server started in the localhost 8080');
 });

@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="ifood.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="./imagens/ifood.png" type="image/x-icon" />
     <title>Pratos - Futoro WeFood</title>
     <link rel="stylesheet" href="cssgeral.css" />
+    <script src="../Wefoodlogica/Ajaxes.js"></script>
   </head>
-  <body>
+  <body onload="Confpratos()">
     <header class="header-menu">
       <nav class="container">
         <ul>
           <li>
-            <img src="ifood.png" alt="Onde ficará a Logo" />
+            <img src="./imagens/ifood.png" alt="Onde ficará a Logo" />
           </li>
           <li><a href="wefood.html">Home</a></li>
           <li><a href="suporte.html">Suporte</a></li>
@@ -28,7 +29,7 @@
     <main>
       <section class="pratos-section">
         <h1>Pratos Principais</h1>
-        <div class="cards-list">
+        <div class="cards-list" id="foods">
           <div class="card-item">
             <img src="https://static.wixstatic.com/media/5f8159_6ae58f88c0d54c92a736f7e7d63b2c80~mv2.png/v1/fill/w_718,h_485,al_c,lg_1,q_85,enc_avif,quality_auto/5f8159_6ae58f88c0d54c92a736f7e7d63b2c80~mv2.png" alt="Prato Principal 1" />
             <h3>Prato Principal 1</h3>
@@ -40,6 +41,7 @@
             <h3>Prato Principal 2</h3>
             <p>Descrição</p>
             <button class="order-button">Pedir Agora</button>
+          </div>
       </section>
     </main>
 
