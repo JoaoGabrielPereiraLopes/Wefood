@@ -1,1 +1,1 @@
-INSERT INTO COMIDA(Preparo,Preco,Nome) VALUES(0,3.50,'picolé');
+SELECT * FROM COMIDA;

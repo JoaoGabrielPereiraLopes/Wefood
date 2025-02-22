@@ -2,7 +2,8 @@ CREATE TABLE COMIDA(
     ID INTEGER PRIMARY KEY,
     Preparo NUMERIC,
     Preco NUMERIC,
-    Nome text
+    Nome text,
+    Tipo text
 );
 
 CREATE TABLE ingredientes(
