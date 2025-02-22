@@ -9,27 +9,27 @@ app.use(express.static(path.join(__dirname, '../public'), { extensions: ['html',
 app.use(express.json());
 app.use(bodyParser.json({ limit: '512mb' }));
 
+
+app.get('/cadastro_comidas', (req, res) => {
+    res.sendFile(path.join(__dirname, path.join('../public/html', 'cardapio.html')));
+})
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, path.join('../public/html', 'wefood.html')));
 });
+
 app.get('/wefoodestetica.css', (req, res) => {
     res.sendFile(path.join(__dirname, path.join('../public/html', 'wefoodestetica.css')));
 });
-app.get('/user', (req,res)=>{
+
+app.get('/cardapio.html', (req,res)=>{
     res.sendFile(path.join(__dirname, path.join('../public/html', 'pratos.html')));
 })
+
 app.get('/cssgeral.css', (req,res)=>{
     res.sendFile(path.join(__dirname, path.join('../public/html', 'cssgeral.css')));
 })
 
-app.get('/loja', (req,res)=>{
-    res.sendFile(path.join(__dirname, path.join('./public/html', 'foodshop.html')));
-})
-
-app.get('/comida',(req,res)=>{
-    res.sendFile(path.join(__dirname, path.join('./public/html', '')));
-})
-app.get('/get',(req,res)=>{
+app.post('/get',(req,res)=>{
     const {table}=req.body
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
