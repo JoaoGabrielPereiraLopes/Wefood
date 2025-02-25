@@ -1,5 +1,8 @@
 /* Reset de estilos para evitar problemas entre diferentes navegadores */
 * {
+  --red-default: #ea1d2c;
+  --hover-red: #c2121f;
+	--dark-red: #cc1825;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -331,14 +334,7 @@
 }
 
 .delete-btn {
-    background-color: #f44336;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
+    }
 
 .delete-btn:hover {
     background-color: #da190b;
@@ -501,3 +497,31 @@
 	  opacity: 0;
 	}
   }
+  .button-search {
+    color: var(--white);
+    font-family: "SulSans Bold", sans-serif;
+    background-color: var(--red-default);
+    padding: 17px 33px;
+    border-radius: 5px;
+    margin-left: 10px;
+    border: none;
+  }
+  
+  .button-search:hover {
+    background-color: var(--dark-red);
+  }
+.edita-exclui{
+  display: flex;
+  justify-content: space-between;
+  
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+
+}
+i{
+  background-color: #c53e09c5;
+  padding: 10px;
+border-radius: 20px;}

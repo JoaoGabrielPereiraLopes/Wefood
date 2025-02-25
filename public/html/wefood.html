@@ -5,7 +5,7 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="shortcut icon" href="ifood.png" type="image/x-icon" />
+		<link rel="shortcut icon" href="./imagens/ifood.png" type="image/x-icon" />
 		
 		<meta
 			property="og:image"
@@ -24,10 +24,10 @@
 			<nav class="container">
 				<ul>
 					<li>
-						<img src="ifood.png" width="72" height="72" alt="Onde ficará a Logo" />
+						<img src="./imagens/ifood.png" width="72" height="72" alt="Onde ficará a Logo" />
 					</li>
 					<li>
-						<a href="suporte.html"> Suporte </a>
+						<li><a href="/cadastro_comidas">Cadastrar Comida</a></li>
 					</li>
 					<li>
 						<a href="creditos.html">
@@ -51,11 +51,11 @@
 					<p>O que você precisa está aqui. Peça e receba onde estiver.</p>
 				</div>
 				<div>
-					<form class="search-input">
+					<form class="search-input" action="/search.html" method="GET">
 						<img src="https://cdn.dribbble.com/users/891352/screenshots/2651893/svg-search.gif" alt="Teste de imagem" 
 						width="100" height="50"
 						/>
-						<input type="text" placeholder="Pesquise Seu Pedido!" id="search-bar" />
+						<input type="text" placeholder="Pesquise Seu Pedido!" id="search-bar" name="clausula"/>
 					</form>
 					<button class="button-search">Buscar</button>
 					<ul class="suggestions-list" id="suggestions"></ul> <!-- Lista de sugestões -->

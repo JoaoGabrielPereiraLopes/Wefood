@@ -13,6 +13,10 @@ app.use(bodyParser.json({ limit: '512mb' }));
 app.get('/cadastro_comidas', (req, res) => {
     res.sendFile(path.join(__dirname, path.join('../public/html', 'cardapio.html')));
 })
+app.get('/search.html', (req, res) => {
+    res.sendFile(path.join(__dirname, path.join('../public/html', 'search.html')));
+
+})
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, path.join('../public/html', 'wefood.html')));
 });
@@ -55,15 +59,16 @@ app.post('/get',(req,res)=>{
     })
     banco.close()
 })
-app.get('/search',(req,res)=>{
-    const {tabela,texto} = req.query;
+app.post('/search',(req,res)=>{
+    const {table,texto,atributo} = req.body;
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    banco.all(`SELECT * FROM ${tabela} "%${texto}%"`, (error, result) => {
+    console.log(`SELECT * FROM ${table} where ${atributo} LIKE "%${texto}%";`)
+    banco.all(`SELECT * FROM ${table} where ${atributo} LIKE "%${texto}%";`, (error, result) => {
         if (error) {
             console.error(`Erro na query: ${error.message}`);
             return res.status(500).json({
@@ -91,14 +96,15 @@ app.get('/search',(req,res)=>{
 })
 
 app.post('/insert',(req,res)=>{
-    const {tabela,valores}=req.body
+    const {table,valores}=req.body
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    banco.run(`INSERT INTO ${tabela} values ${valores})`,(error)=>{
+
+    banco.run(`INSERT INTO ${table} values ${valores};`,(error)=>{
         if(error){
             console.error(`a query deu o erro: ${error}`)
             return res.status(200).json({
@@ -119,14 +125,14 @@ app.post('/insert',(req,res)=>{
 })
 
 app.get('/where',(req,res)=>{
-    const {clausula,tabela} = req.query;
+    const {clausula,table} = req.query;
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    banco.get(`SELECT * FROM ${tabela} WHERE ${clausula}` , (error, result) => {
+    banco.get(`SELECT * FROM ${table} WHERE ${clausula}` , (error, result) => {
         if (error) {
             console.error(`A query gerou o erro: ${error.message}`);
             return res.status(200).json({
@@ -145,14 +151,14 @@ app.get('/where',(req,res)=>{
 })
 
 app.post('/update',(req,res)=>{
-    const {tabela,valores} = req.query;
+    const {table,valores} = req.query;
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    banco.run(`UPDATE ${tabela} set ${valores} WHERE ID=${ID})`,(error)=>{
+    banco.run(`UPDATE ${table} set ${valores} WHERE ID=${ID})`,(error)=>{
         if (error) {
             console.error(`A query gerou o erro: ${error.message}`);
             return res.status(200).json({

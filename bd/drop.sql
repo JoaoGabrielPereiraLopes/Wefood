@@ -11,7 +11,8 @@ CREATE TABLE COMIDA(
     Preparo NUMERIC,
     Preco NUMERIC,
     Nome text,
-    Tipo text
+    Tipo text,
+    Decricao text
 );
 
 CREATE TABLE ingredientes(
