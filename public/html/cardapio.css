@@ -1,0 +1,122 @@
+body{
+  justify-content: center;
+  align-items: center;
+  background-color:#fff;
+}
+#formBody{
+  margin: 2vh;
+  width: max-content;
+  height: min-content;
+  padding: 5vh;
+  border-radius: 4%;
+  background-color: grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:flex-start;
+  margin-left: auto;
+  margin-right: auto;
+}
+.inputgroup{
+  display: flex;
+  flex-direction: column;
+}
+.input{
+  margin:2vh;
+  margin-left: 5vh;
+  margin-right: 5vh;
+  padding: 2vh;
+  padding-left:6vh;
+  border: 1px solid white;
+  border-radius: 1vh;
+  font-size: larger;
+}
+
+.submitButton{
+  background-color: red;
+  padding:2vh;
+  border-radius:5vh;
+  width: 100%;
+  border: none;
+  font-size: larger;
+  color: white;
+}
+
+/*Radio styling*/
+
+input-option356 {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.input-option356:after {
+  content: "";
+  clear: both;
+}
+
+.radio {
+  border: none;
+  box-sizing: border-box;
+  float: left;
+  height: 70px;
+  position: relative;
+  border-radius: 100%;
+  width: 70px;
+  background-color: #000;
+}
+
+.radio + .radio {
+  margin-left: 25px;
+}
+
+.radio label {
+  background: black no-repeat center center;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  border-radius: 100%;
+  font-size: medium;
+}
+
+.radio label span {
+  z-index: 1;
+}
+.radio label input[type=radio] {
+  background-color: black;
+  all: unset;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+/*Styling for the radios that are currently selected*/
+.radio label input[type=radio]:checked {
+  background-color: rgb(63, 1, 1);
+  border-radius: 100%;
+}
+.radio label input[type=radio]:checked + span{
+  color: #fff;
+}
+.fa-duotone,.fa-sharp-duotone{
+  background-color: transparent;
+  font-size: 3em;
+  color: rgb(255, 255, 255) ;
+}
+.fa-duotone:hover,.fa-sharp-duotone:hover{
+  background-color: transparent;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+}
+#inputgroup2{
+  justify-content: center; 
+  align-items: center;
+}

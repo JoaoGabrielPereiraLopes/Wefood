@@ -17,6 +17,8 @@ async function Confpratos(){
     //<img src="./imagem" alt="Prato" /> para adicionar imagens
     foodiv.innerHTML+=(`<div class="card-item">
             
+            <div class="card-item">
+            <div class="edita-exclui"><i class="fa-solid fa-pen" onclick='ConfUpdate(${row.ID})'></i><i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'></i></div>
             <h3>${row.Nome}</h3>
             <p>${row.Preparo}min</p>
             <p>${row.Decricao}</p>
@@ -39,7 +41,6 @@ async function Confform(){
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         valores+=`${tempo.value},${preco.value},"${nome.value}","${radio}","${descricao.value}")`
-        alert(valores)  
         const formData = {
             table: 'COMIDA(Preparo,Preco,Nome,Tipo,Decricao)',
             valores:valores
@@ -93,14 +94,75 @@ async function confsearch(){
     result.result.forEach(row => {
         var foodiv= document.getElementById('foods');
         //<img src="./imagem" alt="Prato" /> para adicionar imagens
-        foodiv.innerHTML+=(`<div class="card-item">
-            
+        
+        foodiv.innerHTML+=(`
+            <div class="card-item">
+            <div class="edita-exclui"> <i class="fa-solid fa-pen" onclick='ConfUpdate(${row.ID})'></i>
+    <i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'>
+        
+    </i></div>
             <h3>${row.Nome}</h3>
             <p>${row.Preparo}min</p>
             <p>${row.Decricao}</p>
-            <div class="edita-exclui"><i class="fa-solid fa-pen"></i><i class="fa-solid fa-trash"></i></div>
-            <button class="order-button">R$${row.Preco}</button>
-            </div>`)
-          
+            <button class="order-button">R$${row.Preco}</button></div>
+`)
          });
+}
+async function vanish(table,id){
+    const formData = {
+        table: table,
+        id:id
+    };
+    const response = await fetch('./delete', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(formData)
+    });
+    location.reload(true);
+}
+async function ConfUpdate(id) {
+    const tempo=document.getElementById("tempo")
+    const preco=document.getElementById("preco")
+    const nome=document.getElementById("nome")
+    const radios = document.getElementsByName("Tipo");
+    const descricao = document.getElementById("descricao");
+    const form=document.getElementById('form')
+    let valores='('
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        valores+=`Tempo="${tempo.value}",Preco="${preco.value}",Nome="${nome.value}",Tipo="${radio}","${descricao.value}")`
+        const formData = {
+            table: 'COMIDA',
+            valores:valores,
+            ID: id
+        };
+    
+        try{
+            const response = await fetch('/insert', {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            valores=''
+            tempo.value=''
+            preco.value=''
+            nome.value=''
+            radio=''
+            descricao.value=''
+            const radios = document.getElementsByName("Tipo");
+            radios.forEach((radio) => {
+                if (!radio.disabled) {  // Verifica se o botão não está desativado
+                    radio.disabled=true;
+                }
+            });
+        }
+        catch (error){
+            console.log('Error: ', error);
+        }
+    });
+    location.reload(true);
 }

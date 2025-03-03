@@ -67,7 +67,6 @@ app.post('/search',(req,res)=>{
         }
         console.log('conexão bem sucedida')
     })
-    console.log(`SELECT * FROM ${table} where ${atributo} LIKE "%${texto}%";`)
     banco.all(`SELECT * FROM ${table} where ${atributo} LIKE "%${texto}%";`, (error, result) => {
         if (error) {
             console.error(`Erro na query: ${error.message}`);
@@ -84,7 +83,6 @@ app.post('/search',(req,res)=>{
             });
         }
     
-        console.log(result);
         return res.status(200).json({
             status: 'success',
             message: 'Dados recuperados com sucesso.',
@@ -151,14 +149,14 @@ app.get('/where',(req,res)=>{
 })
 
 app.post('/update',(req,res)=>{
-    const {table,valores} = req.query;
+    const {table,valores,ID} = req.query;
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    banco.run(`UPDATE ${table} set ${valores} WHERE ID=${ID})`,(error)=>{
+    banco.run(`UPDATE ${table} set ${valores} WHERE ID=${ID};`,(error)=>{
         if (error) {
             console.error(`A query gerou o erro: ${error.message}`);
             return res.status(200).json({
@@ -173,7 +171,32 @@ app.post('/update',(req,res)=>{
         }
     })
     banco.close()
-})/*
+})
+app.post('/delete',(req,res)=>{
+    const {table,id} = req.body;
+    banco=new sql.Database('../bd/WeFood.db',(err)=>{
+        if(err){
+          return console.error(err.message)
+        }
+        console.log('conexão bem sucedida')
+    })
+    banco.run(`DELETE FROM ${table} WHERE ID=${id};`,(error)=>{
+        if (error) {
+            console.error(`A query gerou o erro: ${error.message}`);
+            return res.status(200).json({
+                status: 'fail',
+                message: 'delete failed'
+            });
+        } else {
+            return res.status(200).json({
+                status: 'success',
+                message: 'UPDATE successfully'
+            });
+        }
+    })
+    banco.close()
+})
+/*
 
 app.post('/search_ingredientes',(req,res)=>{
     const {Nome} = req.body;
