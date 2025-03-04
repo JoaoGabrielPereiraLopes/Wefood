@@ -15,10 +15,9 @@ async function Confpratos(){
     result.result.forEach(row => {
         var foodiv= document.getElementById('foods');
     //<img src="./imagem" alt="Prato" /> para adicionar imagens
-    foodiv.innerHTML+=(`<div class="card-item">
-            
-            <div class="card-item">
-            <div class="edita-exclui"><i class="fa-solid fa-pen" onclick='ConfUpdate(${row.ID})'></i><i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'></i></div>
+    foodiv.innerHTML+=(`
+        <div class="card-item">
+            <div class="edita-exclui"><i class="fa-solid fa-pen" onclick='linkupdate(${row.ID})'></i><i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'></i></div>
             <h3>${row.Nome}</h3>
             <p>${row.Preparo}min</p>
             <p>${row.Decricao}</p>
@@ -66,6 +65,7 @@ async function Confform(){
                     radio.disabled=true;
                 }
             });
+            window.location.href = "/";
         }
         catch (error){
             console.log('Error: ', error);
@@ -97,7 +97,7 @@ async function confsearch(){
         
         foodiv.innerHTML+=(`
             <div class="card-item">
-            <div class="edita-exclui"> <i class="fa-solid fa-pen" onclick='ConfUpdate(${row.ID})'></i>
+            <div class="edita-exclui"> <i class="fa-solid fa-pen" onclick='linkupdate(${row.ID})'></i>
     <i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'>
         
     </i></div>
@@ -122,47 +122,56 @@ async function vanish(table,id){
     });
     location.reload(true);
 }
-async function ConfUpdate(id) {
+async function linkupdate(id){
+    window.location.href = "editar.html?id="+id;
+}
+async function ConfUpdate() {
+    var query = location.search.slice(1);
+    var chaveValor = query.split('=');
+    var ID = chaveValor[1];
+    let formData = {
+        table:'COMIDA',
+        clausula:`ID=${ID}`
+    };
+    const response = await fetch('./where', {
+        method: 'POST',
+        headers: {
+            'Content-Type':'application/json'
+        },
+        body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+    elemento=result.query
+    
     const tempo=document.getElementById("tempo")
     const preco=document.getElementById("preco")
     const nome=document.getElementById("nome")
-    const radios = document.getElementsByName("Tipo");
+    document.getElementById(elemento.Tipo).checked =true;
     const descricao = document.getElementById("descricao");
     const form=document.getElementById('form')
-    let valores='('
+    tempo.value=elemento.Preparo;
+    preco.value=elemento.Preco;
+    nome.value=elemento.Nome;
+    descricao.value=elemento.Decricao;
+    radio=elemento.Tipo;
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        valores+=`Tempo="${tempo.value}",Preco="${preco.value}",Nome="${nome.value}",Tipo="${radio}","${descricao.value}")`
-        const formData = {
-            table: 'COMIDA',
-            valores:valores,
-            ID: id
-        };
+        formData={
+            table:'COMIDA',
+            valores:`Preparo=${tempo.value}, Preco=${preco.value}, Nome="${nome.value}", Tipo="${radio}", Decricao="${descricao.value}"`,
+            ID:ID
+        }
     
-        try{
-            const response = await fetch('/insert', {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            valores=''
-            tempo.value=''
-            preco.value=''
-            nome.value=''
-            radio=''
-            descricao.value=''
-            const radios = document.getElementsByName("Tipo");
-            radios.forEach((radio) => {
-                if (!radio.disabled) {  // Verifica se o botão não está desativado
-                    radio.disabled=true;
-                }
-            });
-        }
-        catch (error){
-            console.log('Error: ', error);
-        }
-    });
-    location.reload(true);
+        const update = await fetch('./update', {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+    
+        window.location.href = "cardapio.html";
+    })
 }
