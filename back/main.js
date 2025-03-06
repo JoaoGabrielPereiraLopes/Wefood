@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const sql = require('sqlite3').verbose();
 const url = require('url');
 const jwt = require("jsonwebtoken");
+const { log } = require('console');
 app.use(express.static(path.join(__dirname, '../public'), { extensions: ['html', 'css', 'js', 'ttf', 'jpeg', 'svg'] }));
 app.use(express.json());
 app.use(bodyParser.json({ limit: '512mb' }));
@@ -82,7 +83,7 @@ app.post('/search',(req,res)=>{
         
         if (!result) {
             return res.status(404).json({
-                status: 'fail',
+                status: 'failed',
                 message: 'Nenhum dado encontrado.'
             });
         }
@@ -99,18 +100,38 @@ app.post('/search',(req,res)=>{
 
 app.post('/insert',(req,res)=>{
     const {table,valores}=req.body
+    var str= valores
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-
+    let verifica=true
+    str=str.replace(")", '')
+    infos=str.split(',')
+    console.log(infos)
+    infos.forEach(element => {
+        if(element.split('"').length>=2){
+            element=element.split('"')[1]
+            console.log(element)
+        }
+        if(!element){
+            verifica=false
+        }
+    });
+    if(!(table && verifica)){
+        return res.status(200).json({
+            status: 'failed',
+            message: 'preenchimento incorreto'
+        });
+    }
+    console.log(`INSERT INTO ${table} values ${valores};`)
     banco.run(`INSERT INTO ${table} values ${valores};`,(error)=>{
         if(error){
             console.error(`a query deu o erro: ${error}`)
             return res.status(200).json({
-                status: 'fail',
+                status: 'failed',
                 message: 'Register failed',
                 error:error.message
             });
@@ -143,7 +164,7 @@ app.post('/where',(req,res)=>{
                 message: 'SELECT failed'
             });
         } else {
-            console.log(result.Nome)
+            console.log(result)
             return res.status(200).json({
                 status: 'success',
                 message: 'SELECT successfully',
@@ -156,13 +177,33 @@ app.post('/where',(req,res)=>{
 
 app.post('/update',(req,res)=>{
     const {table,valores,ID} = req.body;
+    
     banco=new sql.Database('../bd/WeFood.db',(err)=>{
         if(err){
           return console.error(err.message)
         }
         console.log('conexão bem sucedida')
     })
-    console.log(`UPDATE ${table} set ${valores} WHERE ID=${ID};`)
+    let verifica=true
+    infos=valores.split(',')
+    infos.forEach(element => {
+        element=element.split('=')[1]
+        if(element.split('"').length>=2){
+            element=element.split('"')[1]
+        }
+        if(!element){
+            verifica=false
+        }
+    });
+
+    if(!(table && verifica && ID)){
+        return res.status(200).json({
+            status: 'failed',
+            message: 'preenchimento incorreto'
+        });
+    }
+    console.log(table,verifica,ID)
+
     banco.run(`UPDATE ${table} set ${valores} WHERE ID=${ID};`,(error)=>{
         if (error) {
             console.error(`A query gerou o erro: ${error.message}`);
@@ -177,6 +218,7 @@ app.post('/update',(req,res)=>{
             });
         }
     })
+    
     banco.close()
 })
 app.post('/delete',(req,res)=>{

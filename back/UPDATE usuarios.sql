@@ -1,3 +1,3 @@
-UPDATE usuarios
+UPDATE COMIDA
 SET Tipo = 'Bebida'
-WHERE ID = 1;
+WHERE ID = 4;

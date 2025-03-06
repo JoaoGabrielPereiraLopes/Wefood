@@ -44,7 +44,11 @@ async function Confform(){
             table: 'COMIDA(Preparo,Preco,Nome,Tipo,Decricao)',
             valores:valores
         };
-    
+        tempo.value=''
+        preco.value=''
+        nome.value=''
+        descricao.value=''
+        valores=''
         try{
             const response = await fetch('/insert', {
                 method: 'POST',
@@ -53,19 +57,11 @@ async function Confform(){
                 },
                 body: JSON.stringify(formData)
             });
-            valores=''
-            tempo.value=''
-            preco.value=''
-            nome.value=''
-            radio=''
-            descricao.value=''
-            const radios = document.getElementsByName("Tipo");
-            radios.forEach((radio) => {
-                if (!radio.disabled) {  // Verifica se o botão não está desativado
-                    radio.disabled=true;
-                }
-            });
-            window.location.href = "/";
+            const result = await response.json();
+            alert(result.message);
+            if(result.status!='failed'){
+                window.location.href = "/";
+            }
         }
         catch (error){
             console.log('Error: ', error);
@@ -171,7 +167,10 @@ async function ConfUpdate() {
             },
             body: JSON.stringify(formData)
         });
-    
-        window.location.href = "cardapio.html";
+        const result = await update.json();
+        alert(result.message);
+        if(result.status!='failed'){
+            window.location.href = "cardapio.html";
+        }
     })
 }
