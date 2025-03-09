@@ -14,12 +14,12 @@ const suggestions = [
 
 // Função para filtrar as sugestões com base no que o usuário digita
 searchInput.addEventListener('input', function() {
-  const inputValue = searchInput.value.toLowerCase();
+  const inputValue = searchInput.value;
   suggestionsList.innerHTML = '';
 
   if (inputValue) {
     const filteredSuggestions = suggestions.filter(suggestion =>
-      suggestion.toLowerCase().includes(inputValue)
+      suggestion.includes(inputValue)
     );
     
     filteredSuggestions.forEach(suggestion => {

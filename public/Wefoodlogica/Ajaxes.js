@@ -14,15 +14,20 @@ async function Confpratos(){
 
     result.result.forEach(row => {
         var foodiv= document.getElementById('foods');
-    //<img src="./imagem" alt="Prato" /> para adicionar imagens
-    foodiv.innerHTML+=(`
-        <div class="card-item">
-            <div class="edita-exclui"><i class="fa-solid fa-pen" onclick='linkupdate(${row.ID})'></i><i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'></i></div>
+        //<img src="./imagem" alt="Prato" /> para adicionar imagens
+        var iconClass = iconChooser(row.Tipo);
+        foodiv.innerHTML+=(`
+            <div class="card-item">
+            <div class="edita-exclui"> <i class="fa-solid fa-pen" onclick='linkupdate(${row.ID})'></i>
+    <i class="fa-solid fa-trash" onclick='vanish("COMIDA", ${row.ID})'>
+        
+    </i></div>
             <h3>${row.Nome}</h3>
             <p>${row.Preparo}min</p>
             <p>${row.Decricao}</p>
-            <button class="order-button">R$${row.Preco}</button>
-            </div>`)
+            <p class="${iconClass}"></p>
+            <button class="order-button">R$${row.Preco}</button></div>
+`)
     });
 }
 var radio=''
@@ -90,7 +95,7 @@ async function confsearch(){
     result.result.forEach(row => {
         var foodiv= document.getElementById('foods');
         //<img src="./imagem" alt="Prato" /> para adicionar imagens
-        
+        var iconClass = iconChooser(row.Tipo);
         foodiv.innerHTML+=(`
             <div class="card-item">
             <div class="edita-exclui"> <i class="fa-solid fa-pen" onclick='linkupdate(${row.ID})'></i>
@@ -100,6 +105,7 @@ async function confsearch(){
             <h3>${row.Nome}</h3>
             <p>${row.Preparo}min</p>
             <p>${row.Decricao}</p>
+            <p class="${iconClass}"></p>
             <button class="order-button">R$${row.Preco}</button></div>
 `)
          });
@@ -173,4 +179,22 @@ async function ConfUpdate() {
             window.location.href = "cardapio.html";
         }
     })
+}
+
+function iconChooser(tipo){
+    if(tipo == 'Prato'){
+        return "fa-duotone fa-solid fa-utensils"
+    }
+    else if(tipo == 'Bebida'){
+        return "fa-duotone fa-solid fa-wine-bottle"
+    }
+    else if(tipo == 'Sobremesa'){
+        return "fa-duotone fa-solid fa-ice-cream"
+    }
+    else if(tipo == 'Acompanhamentos'){
+        return "fa-sharp-duotone fa-solid fa-drumstick-bite"
+    }
+    else{
+        return ""
+    }
 }

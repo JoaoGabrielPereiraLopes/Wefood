@@ -260,6 +260,6 @@ app.post("/login", (req, res) => {
       return res.json({ token });
     }
 });
-app.listen(8080, () => {
+app.listen(7070, () => {
     console.log('Server started in the localhost 8080');
 });
